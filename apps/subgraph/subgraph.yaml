@@ -50,3 +50,58 @@ dataSources:
         - event: OwnershipTransferred(indexed address,indexed address)
           handler: handleOwnershipTransferred
       file: ./src/binary-oracle.ts
+templates:
+  - kind: ethereum
+    name: PredictionMarket
+    network: sepolia
+    source:
+      abi: PredictionMarket
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities:
+        - Bought
+        - FeeUpdated
+        - Initialized
+        - LiquidityAdded
+        - LiquidityRefunded
+        - LiquidityRemoved
+        - MarketStateChanged
+        - PredictionMarketOwnershipTransferred
+        - PositionRedeemed
+        - RoleAdminChanged
+        - RoleGranted
+        - RoleRevoked
+        - Sold
+      abis:
+        - name: PredictionMarket
+          file: ./abis/PredictionMarket.json
+      eventHandlers:
+        - event: Bought(indexed address,indexed uint256,uint256,uint256,uint256)
+          handler: handleBought
+        - event: FeeUpdated(uint256,uint256)
+          handler: handleFeeUpdated
+        - event: Initialized(uint64)
+          handler: handleInitialized
+        - event: LiquidityAdded(indexed address,uint256,uint256)
+          handler: handleLiquidityAdded
+        - event: LiquidityRefunded(indexed address,uint256,uint256)
+          handler: handleLiquidityRefunded
+        - event: LiquidityRemoved(indexed address,uint256,uint256,uint256)
+          handler: handleLiquidityRemoved
+        - event: MarketStateChanged(uint8)
+          handler: handleMarketStateChanged
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: PositionRedeemed(address,uint256)
+          handler: handlePositionRedeemed
+        - event: RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)
+          handler: handleRoleAdminChanged
+        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleGranted
+        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleRevoked
+        - event: Sold(indexed address,indexed uint256,uint256,uint256,uint256)
+          handler: handleSold
+      file: ./src/prediction-market.ts

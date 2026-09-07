@@ -3,6 +3,7 @@ import {
   OwnershipTransferred as OwnershipTransferredEvent
 } from "../generated/MarketManager/MarketManager"
 import { MarketCreated, OwnershipTransferred } from "../generated/schema"
+import { PredictionMarket } from "../generated/templates"
 
 export function handleMarketCreated(event: MarketCreatedEvent): void {
   let entity = new MarketCreated(
@@ -17,6 +18,8 @@ export function handleMarketCreated(event: MarketCreatedEvent): void {
   entity.transactionHash = event.transaction.hash
 
   entity.save()
+
+  PredictionMarket.create(event.params.market)
 }
 
 export function handleOwnershipTransferred(

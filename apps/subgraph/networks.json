@@ -6,6 +6,9 @@
     },
     "BinaryOracle": {
       "address": "0x2642037C24B9946127714B8E58393Cd0f8B5F858"
+    },
+    "PredictionMarket": {
+      "address": "0xcb0D43D26e97bE82103e0F947CCC5E4F3b8961a9"
     }
   }
 }
