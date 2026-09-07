@@ -3,6 +3,9 @@
     "MarketManager": {
       "address": "0xB02eC4E5c3480e919dc0e2b24b8a4c248A31E10D",
       "startBlock": 11654534
+    },
+    "BinaryOracle": {
+      "address": "0x2642037C24B9946127714B8E58393Cd0f8B5F858"
     }
   }
 }

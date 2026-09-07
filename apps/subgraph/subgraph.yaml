@@ -27,3 +27,26 @@ dataSources:
         - event: OwnershipTransferred(indexed address,indexed address)
           handler: handleOwnershipTransferred
       file: ./src/market-manager.ts
+  - kind: ethereum
+    name: BinaryOracle
+    network: sepolia
+    source:
+      address: "0x2642037C24B9946127714B8E58393Cd0f8B5F858"
+      abi: BinaryOracle
+      startBlock: 11654534
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities:
+        - MarketResolved
+        - BinaryOracleOwnershipTransferred
+      abis:
+        - name: BinaryOracle
+          file: ./abis/BinaryOracle.json
+      eventHandlers:
+        - event: MarketResolved(indexed bytes32,indexed uint80,int256,uint256,uint8)
+          handler: handleMarketResolved
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+      file: ./src/binary-oracle.ts

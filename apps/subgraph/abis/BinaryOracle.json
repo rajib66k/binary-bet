@@ -1,0 +1,261 @@
+[
+  { "inputs": [], "stateMutability": "nonpayable", "type": "constructor" },
+  { "inputs": [], "name": "BinaryOracle__AlreadyResolved", "type": "error" },
+  {
+    "inputs": [],
+    "name": "BinaryOracle__CurrentRoundBeforeExpiry",
+    "type": "error"
+  },
+  { "inputs": [], "name": "BinaryOracle__FeedRoundMismatch", "type": "error" },
+  { "inputs": [], "name": "BinaryOracle__InvalidExpiry", "type": "error" },
+  { "inputs": [], "name": "BinaryOracle__InvalidPrice", "type": "error" },
+  { "inputs": [], "name": "BinaryOracle__InvalidQuestionId", "type": "error" },
+  { "inputs": [], "name": "BinaryOracle__InvalidRound", "type": "error" },
+  {
+    "inputs": [],
+    "name": "BinaryOracle__InvalidSettlementDelay",
+    "type": "error"
+  },
+  { "inputs": [], "name": "BinaryOracle__InvalidStrike", "type": "error" },
+  {
+    "inputs": [],
+    "name": "BinaryOracle__PreviousRoundAfterExpiry",
+    "type": "error"
+  },
+  {
+    "inputs": [],
+    "name": "BinaryOracle__PreviousRoundInvalid",
+    "type": "error"
+  },
+  { "inputs": [], "name": "BinaryOracle__SettlementTooLate", "type": "error" },
+  { "inputs": [], "name": "BinaryOracle__TimeoutNotReached", "type": "error" },
+  { "inputs": [], "name": "BinaryOracle__TooEarly", "type": "error" },
+  { "inputs": [], "name": "BinaryOracle__ZeroAddress", "type": "error" },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "owner", "type": "address" }
+    ],
+    "name": "OwnableInvalidOwner",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "account", "type": "address" }
+    ],
+    "name": "OwnableUnauthorizedAccount",
+    "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "bytes32",
+        "name": "questionId",
+        "type": "bytes32"
+      },
+      {
+        "indexed": true,
+        "internalType": "uint80",
+        "name": "roundId",
+        "type": "uint80"
+      },
+      {
+        "indexed": false,
+        "internalType": "int256",
+        "name": "price",
+        "type": "int256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "updatedAt",
+        "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "enum DataTypes.YesWins",
+        "name": "yesWins",
+        "type": "uint8"
+      }
+    ],
+    "name": "MarketResolved",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "previousOwner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes32", "name": "questionId", "type": "bytes32" }
+    ],
+    "name": "canResolve",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes32", "name": "questionId", "type": "bytes32" }
+    ],
+    "name": "getMarketData",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "address", "name": "market", "type": "address" },
+          { "internalType": "address", "name": "priceFeed", "type": "address" },
+          { "internalType": "int256", "name": "strike", "type": "int256" },
+          {
+            "internalType": "uint256",
+            "name": "resolveTime",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "maxSettlementDelay",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct DataTypes.MarketData",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes32", "name": "questionId", "type": "bytes32" }
+    ],
+    "name": "getResolutionData",
+    "outputs": [
+      {
+        "components": [
+          { "internalType": "bool", "name": "resolved", "type": "bool" },
+          {
+            "internalType": "enum DataTypes.YesWins",
+            "name": "yesWins",
+            "type": "uint8"
+          },
+          {
+            "internalType": "uint80",
+            "name": "settlementRoundId",
+            "type": "uint80"
+          },
+          {
+            "internalType": "int256",
+            "name": "settlementPrice",
+            "type": "int256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "settlementTimestamp",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct DataTypes.ResolutionData",
+        "name": "",
+        "type": "tuple"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes32", "name": "questionId", "type": "bytes32" },
+      { "internalType": "uint80", "name": "roundId", "type": "uint80" }
+    ],
+    "name": "resolve",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes32", "name": "questionId", "type": "bytes32" }
+    ],
+    "name": "resolveByTimeout",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          { "internalType": "address", "name": "market", "type": "address" },
+          { "internalType": "address", "name": "priceFeed", "type": "address" },
+          { "internalType": "int256", "name": "strike", "type": "int256" },
+          {
+            "internalType": "uint256",
+            "name": "resolveTime",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "maxSettlementDelay",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct DataTypes.MarketData",
+        "name": "marketData",
+        "type": "tuple"
+      },
+      { "internalType": "bytes32", "name": "questionId", "type": "bytes32" }
+    ],
+    "name": "setUpMarket",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes32", "name": "questionId", "type": "bytes32" }
+    ],
+    "name": "strikeWithDecimals",
+    "outputs": [{ "internalType": "int256", "name": "", "type": "int256" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "newOwner", "type": "address" }
+    ],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]
