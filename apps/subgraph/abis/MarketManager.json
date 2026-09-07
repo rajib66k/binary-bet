@@ -1,0 +1,242 @@
+[
+  {
+    "inputs": [
+      { "internalType": "address", "name": "marketAddress", "type": "address" },
+      {
+        "internalType": "address",
+        "name": "lpTokenAddress",
+        "type": "address"
+      },
+      { "internalType": "address", "name": "oracleAddress", "type": "address" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "constructor"
+  },
+  { "inputs": [], "name": "FailedDeployment", "type": "error" },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "balance", "type": "uint256" },
+      { "internalType": "uint256", "name": "needed", "type": "uint256" }
+    ],
+    "name": "InsufficientBalance",
+    "type": "error"
+  },
+  { "inputs": [], "name": "MarketManager__InvalidAddress", "type": "error" },
+  {
+    "inputs": [],
+    "name": "MarketManager__MarketAlreadyExists",
+    "type": "error"
+  },
+  { "inputs": [], "name": "MarketManager__MarketNotFound", "type": "error" },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "owner", "type": "address" }
+    ],
+    "name": "OwnableInvalidOwner",
+    "type": "error"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "account", "type": "address" }
+    ],
+    "name": "OwnableUnauthorizedAccount",
+    "type": "error"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "market",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "lpToken",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "bytes32",
+        "name": "questionId",
+        "type": "bytes32"
+      }
+    ],
+    "name": "MarketCreated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "previousOwner",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "newOwner",
+        "type": "address"
+      }
+    ],
+    "name": "OwnershipTransferred",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      {
+        "components": [
+          {
+            "internalType": "bytes32",
+            "name": "questionId",
+            "type": "bytes32"
+          },
+          {
+            "internalType": "uint256",
+            "name": "resolveTime",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "liquidityDeadline",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "initialLiquidityTarget",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct DataTypes.MarketInitParams",
+        "name": "params",
+        "type": "tuple"
+      },
+      {
+        "components": [
+          { "internalType": "address", "name": "market", "type": "address" },
+          { "internalType": "address", "name": "priceFeed", "type": "address" },
+          { "internalType": "int256", "name": "strike", "type": "int256" },
+          {
+            "internalType": "uint256",
+            "name": "resolveTime",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "maxSettlementDelay",
+            "type": "uint256"
+          }
+        ],
+        "internalType": "struct DataTypes.MarketData",
+        "name": "data",
+        "type": "tuple"
+      },
+      { "internalType": "string", "name": "lpTokenName", "type": "string" },
+      { "internalType": "string", "name": "lpTokenSymbol", "type": "string" }
+    ],
+    "name": "cloneAndRegisterMarket",
+    "outputs": [
+      { "internalType": "address", "name": "market", "type": "address" },
+      { "internalType": "address", "name": "lpToken", "type": "address" }
+    ],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getLPTokenImplementation",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes32", "name": "questionId", "type": "bytes32" }
+    ],
+    "name": "getMarket",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getMarketImplementation",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "getOracle",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "bytes32", "name": "questionId", "type": "bytes32" }
+    ],
+    "name": "isRegisteredMarket",
+    "outputs": [{ "internalType": "bool", "name": "", "type": "bool" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "lpTokenImplementation",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "marketImplementation",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "oracle",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "owner",
+    "outputs": [{ "internalType": "address", "name": "", "type": "address" }],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "renounceOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "newOwner", "type": "address" }
+    ],
+    "name": "transferOwnership",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "uint256", "name": "newFee", "type": "uint256" },
+      { "internalType": "bytes32", "name": "questionId", "type": "bytes32" }
+    ],
+    "name": "updateFactoryFee",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]
