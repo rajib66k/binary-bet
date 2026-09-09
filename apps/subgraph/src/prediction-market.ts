@@ -33,6 +33,7 @@ export function handleBought(event: BoughtEvent): void {
   let entity = new Bought(
     event.transaction.hash.concatI32(event.logIndex.toI32()),
   )
+  entity.market = event.address
   entity.buyer = event.params.buyer
   entity.tokenId = event.params.tokenId
   entity.collateralAmount = event.params.collateralAmount
@@ -50,6 +51,7 @@ export function handleFeeUpdated(event: FeeUpdatedEvent): void {
   let entity = new FeeUpdated(
     event.transaction.hash.concatI32(event.logIndex.toI32()),
   )
+  entity.market = event.address
   entity.oldRate = event.params.oldRate
   entity.newRate = event.params.newRate
 
@@ -64,6 +66,7 @@ export function handleInitialized(event: InitializedEvent): void {
   let entity = new Initialized(
     event.transaction.hash.concatI32(event.logIndex.toI32()),
   )
+  entity.market = event.address
   entity.version = event.params.version
 
   entity.blockNumber = event.block.number
@@ -77,6 +80,7 @@ export function handleLiquidityAdded(event: LiquidityAddedEvent): void {
   let entity = new LiquidityAdded(
     event.transaction.hash.concatI32(event.logIndex.toI32()),
   )
+  entity.market = event.address
   entity.provider = event.params.provider
   entity.collateralAmount = event.params.collateralAmount
   entity.lpTokensMinted = event.params.lpTokensMinted
@@ -92,6 +96,7 @@ export function handleLiquidityRefunded(event: LiquidityRefundedEvent): void {
   let entity = new LiquidityRefunded(
     event.transaction.hash.concatI32(event.logIndex.toI32()),
   )
+  entity.market = event.address
   entity.provider = event.params.provider
   entity.lpTokensBurned = event.params.lpTokensBurned
   entity.collateralAmount = event.params.collateralAmount
@@ -107,6 +112,7 @@ export function handleLiquidityRemoved(event: LiquidityRemovedEvent): void {
   let entity = new LiquidityRemoved(
     event.transaction.hash.concatI32(event.logIndex.toI32()),
   )
+  entity.market = event.address
   entity.provider = event.params.provider
   entity.lpTokensBurned = event.params.lpTokensBurned
   entity.yesAmount = event.params.yesAmount
@@ -123,6 +129,7 @@ export function handleMarketStateChanged(event: MarketStateChangedEvent): void {
   let entity = new MarketStateChanged(
     event.transaction.hash.concatI32(event.logIndex.toI32()),
   )
+  entity.market = event.address
   entity.marketState = event.params.marketState
 
   entity.blockNumber = event.block.number
@@ -152,6 +159,7 @@ export function handlePositionRedeemed(event: PositionRedeemedEvent): void {
   let entity = new PositionRedeemed(
     event.transaction.hash.concatI32(event.logIndex.toI32()),
   )
+  entity.market = event.address
   entity.user = event.params.user
   entity.amount = event.params.amount
 
@@ -166,6 +174,7 @@ export function handleRoleAdminChanged(event: RoleAdminChangedEvent): void {
   let entity = new RoleAdminChanged(
     event.transaction.hash.concatI32(event.logIndex.toI32()),
   )
+  entity.market = event.address
   entity.role = event.params.role
   entity.previousAdminRole = event.params.previousAdminRole
   entity.newAdminRole = event.params.newAdminRole
@@ -181,6 +190,7 @@ export function handleRoleGranted(event: RoleGrantedEvent): void {
   let entity = new RoleGranted(
     event.transaction.hash.concatI32(event.logIndex.toI32()),
   )
+  entity.market = event.address
   entity.role = event.params.role
   entity.account = event.params.account
   entity.sender = event.params.sender
@@ -196,6 +206,7 @@ export function handleRoleRevoked(event: RoleRevokedEvent): void {
   let entity = new RoleRevoked(
     event.transaction.hash.concatI32(event.logIndex.toI32()),
   )
+  entity.market = event.address
   entity.role = event.params.role
   entity.account = event.params.account
   entity.sender = event.params.sender
@@ -211,6 +222,7 @@ export function handleSold(event: SoldEvent): void {
   let entity = new Sold(
     event.transaction.hash.concatI32(event.logIndex.toI32()),
   )
+  entity.market = event.address
   entity.buyer = event.params.buyer
   entity.tokenId = event.params.tokenId
   entity.collateralAmount = event.params.collateralAmount

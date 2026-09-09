@@ -38,6 +38,7 @@ type BinaryOracleOwnershipTransferred @entity(immutable: true) {
 }
 type Bought @entity(immutable: true) {
   id: Bytes!
+  market: Bytes! # address
   buyer: Bytes! # address
   tokenId: BigInt! # uint256
   collateralAmount: BigInt! # uint256
@@ -50,6 +51,7 @@ type Bought @entity(immutable: true) {
 
 type FeeUpdated @entity(immutable: true) {
   id: Bytes!
+  market: Bytes! # address
   oldRate: BigInt! # uint256
   newRate: BigInt! # uint256
   blockNumber: BigInt!
@@ -59,6 +61,7 @@ type FeeUpdated @entity(immutable: true) {
 
 type Initialized @entity(immutable: true) {
   id: Bytes!
+  market: Bytes! # address
   version: BigInt! # uint64
   blockNumber: BigInt!
   blockTimestamp: BigInt!
@@ -67,6 +70,7 @@ type Initialized @entity(immutable: true) {
 
 type LiquidityAdded @entity(immutable: true) {
   id: Bytes!
+  market: Bytes! # address
   provider: Bytes! # address
   collateralAmount: BigInt! # uint256
   lpTokensMinted: BigInt! # uint256
@@ -77,6 +81,7 @@ type LiquidityAdded @entity(immutable: true) {
 
 type LiquidityRefunded @entity(immutable: true) {
   id: Bytes!
+  market: Bytes! # address
   provider: Bytes! # address
   lpTokensBurned: BigInt! # uint256
   collateralAmount: BigInt! # uint256
@@ -87,6 +92,7 @@ type LiquidityRefunded @entity(immutable: true) {
 
 type LiquidityRemoved @entity(immutable: true) {
   id: Bytes!
+  market: Bytes! # address
   provider: Bytes! # address
   lpTokensBurned: BigInt! # uint256
   yesAmount: BigInt! # uint256
@@ -98,6 +104,7 @@ type LiquidityRemoved @entity(immutable: true) {
 
 type MarketStateChanged @entity(immutable: true) {
   id: Bytes!
+  market: Bytes! # address
   marketState: Int! # uint8
   blockNumber: BigInt!
   blockTimestamp: BigInt!
@@ -115,6 +122,7 @@ type PredictionMarketOwnershipTransferred @entity(immutable: true) {
 
 type PositionRedeemed @entity(immutable: true) {
   id: Bytes!
+  market: Bytes! # address
   user: Bytes! # address
   amount: BigInt! # uint256
   blockNumber: BigInt!
@@ -124,6 +132,7 @@ type PositionRedeemed @entity(immutable: true) {
 
 type RoleAdminChanged @entity(immutable: true) {
   id: Bytes!
+  market: Bytes! # address
   role: Bytes! # bytes32
   previousAdminRole: Bytes! # bytes32
   newAdminRole: Bytes! # bytes32
@@ -134,6 +143,7 @@ type RoleAdminChanged @entity(immutable: true) {
 
 type RoleGranted @entity(immutable: true) {
   id: Bytes!
+  market: Bytes! # address
   role: Bytes! # bytes32
   account: Bytes! # address
   sender: Bytes! # address
@@ -144,6 +154,7 @@ type RoleGranted @entity(immutable: true) {
 
 type RoleRevoked @entity(immutable: true) {
   id: Bytes!
+  market: Bytes! # address
   role: Bytes! # bytes32
   account: Bytes! # address
   sender: Bytes! # address
@@ -154,6 +165,7 @@ type RoleRevoked @entity(immutable: true) {
 
 type Sold @entity(immutable: true) {
   id: Bytes!
+  market: Bytes! # address
   buyer: Bytes! # address
   tokenId: BigInt! # uint256
   collateralAmount: BigInt! # uint256
