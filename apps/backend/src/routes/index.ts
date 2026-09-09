@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { healthRoute } from "./health.routes.js";
+import { marketsRoute } from "./markets.routes.js";
 
 export const apiRouter = Router();
 
-apiRouter.use(healthRoute);
+apiRouter.use(marketsRoute);
