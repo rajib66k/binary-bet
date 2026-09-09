@@ -18,4 +18,6 @@ export const env = {
     nodeEnv: process.env.NODE_ENV ?? "development",
     logLevel: process.env.LOG_LEVEL ?? "info",
     databaseUrl: checkRequiredEnvVariables("DATABASE_URL"),
+    graphEndpoint: checkRequiredEnvVariables("GRAPH_ENDPOINT"),
+    rpcUrl: checkRequiredEnvVariables("RPC_URL"),
 } as const;
