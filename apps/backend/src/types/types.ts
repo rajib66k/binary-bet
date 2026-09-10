@@ -11,3 +11,11 @@ export type AgentConfig = {
 
     allowedMarkets?: string[];
 }
+
+export type ExecuteTradeParams = {
+    privateKey: `0x${string}`;
+    marketAddress: string;
+    action: "BUY" | "SELL";
+    outcome: "YES" | "NO";
+    amount: number;
+};

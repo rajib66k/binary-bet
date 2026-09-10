@@ -20,4 +20,5 @@ export const env = {
     databaseUrl: checkRequiredEnvVariables("DATABASE_URL"),
     graphEndpoint: checkRequiredEnvVariables("GRAPH_ENDPOINT"),
     rpcUrl: checkRequiredEnvVariables("RPC_URL"),
+    agentWalletEncryptionKey: checkRequiredEnvVariables("AGENT_WALLET_ENCRYPTION_KEY"),
 } as const;
