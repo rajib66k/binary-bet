@@ -1,0 +1,11 @@
+CREATE TABLE auth_nonces (
+    address VARCHAR(42) PRIMARY KEY,
+
+    nonce VARCHAR(128) NOT NULL,
+
+    expires_at TIMESTAMP NOT NULL,
+
+    used BOOLEAN NOT NULL DEFAULT FALSE,
+
+    created_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
