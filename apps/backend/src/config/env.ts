@@ -21,4 +21,6 @@ export const env = {
     graphEndpoint: checkRequiredEnvVariables("GRAPH_ENDPOINT"),
     rpcUrl: checkRequiredEnvVariables("RPC_URL"),
     agentWalletEncryptionKey: checkRequiredEnvVariables("AGENT_WALLET_ENCRYPTION_KEY"),
+    jwtAccessSecret: checkRequiredEnvVariables("JWT_SECRET"),
+    jwtAccessExpiresIn: ("JWT_ACCESS_EXPIRES_IN"),
 } as const;
