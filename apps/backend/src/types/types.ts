@@ -19,3 +19,12 @@ export type ExecuteTradeParams = {
     outcome: "YES" | "NO";
     amount: number;
 };
+
+export type CreateAgentInput = {
+    ownerAddress: string;
+    name: string;
+    maxTradeAmount: number;
+    maxExposure: number;
+    dailyLossLimit: number;
+    allowedMarkets: string[];
+};

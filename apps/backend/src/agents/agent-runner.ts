@@ -2,9 +2,12 @@ import { z } from "zod";
 import { getAgentPrivateKey } from "../lib/agent-wallet/agent-wallet-service.js";
 import { createPredictionAgent } from "./prediction-agents.js";
 import { validateTrade } from "../lib/trading/risk-engine.js";
-import { executeTrade } from "../lib/trading/trade-executor.js";
 import { pool } from "../lib/db.js";
 import { AppError } from "../errors/AppError.js";
+import { checkAgentHumanBacking, updateWorldVerification } from "../services/world-agent.service.js";
+import { createAgentkitClient } from "@worldcoin/agentkit";
+import { privateKeyToAccount } from "viem/accounts";
+import { env } from "../config/env.js";
 
 async function getTradingDecision(agent: any) {
     return await agent.generate(
@@ -65,15 +68,29 @@ export async function runTradingAgent(agentId: string) {
         };
     }
 
+    const world = await checkAgentHumanBacking(dbAgent.walletAddress);
+
+    if (!world.humanBacked) {
+        return {
+            executed: false,
+            reason: "Agent is not backed by a World-verified human",
+            code: "AGENT_NOT_HUMAN_BACKED",
+        };
+    }
+
+    if (dbAgent.registrationStatus !== "verified") {
+        await updateWorldVerification(dbAgent.id, world.humanId!);
+    }
+
     const agentConfig = {
         id: dbAgent.id,
-        owner: dbAgent.ownerAddress,
+        owner: dbAgent.owner_address,
         name: dbAgent.name,
-        walletAddress: dbAgent.walletAddress,
-        maxTradeAmount: dbAgent.maxTradeAmount,
-        maxExposure: dbAgent.maxExposure,
-        dailyLossLimit: dbAgent.dailyLossLimit,
-        allowedMarkets: dbAgent.allowedMarkets,
+        walletAddress: dbAgent.wallet_address,
+        maxTradeAmount: dbAgent.max_trade_amount,
+        maxExposure: dbAgent.max_exposure,
+        dailyLossLimit: dbAgent.daily_loss_limit,
+        allowedMarkets: dbAgent.allowed_markets,
     }
 
     const agent = createPredictionAgent(agentConfig);
@@ -89,19 +106,50 @@ export async function runTradingAgent(agentId: string) {
     }
 
     const privateKey = await getAgentPrivateKey(agentId);
-    const market = decision.marketAddress.toLowerCase();
+    const account = privateKeyToAccount(privateKey);
 
-    const tx = await executeTrade({
-        privateKey,
-        marketAddress: market!,
-        action: decision.action,
-        outcome: decision.outcome!,
-        amount: decision.amount,
+    const agentkit = createAgentkitClient({
+        signer: {
+            address: account.address,
+            chainId: "eip155:11155111",
+            type: "eip191",
+            signMessage: async (message) => {
+                return account.signMessage({ message });
+            },
+        },
     });
+
+    const response = await agentkit.fetch(
+        `${env.agentExecutionUrl}/api/agent-execution/trade`,
+        {
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json",
+            },
+
+            body: JSON.stringify({
+                agentId: dbAgent.id,
+                marketAddress: decision.marketAddress.toLowerCase(),
+                action: decision.action,
+                outcome: decision.outcome,
+                amount: decision.amount,
+            }),
+        }
+    );
+
+    if (!response.ok) {
+        const errorBody = await response.text();
+        throw new AppError(response.status, `AgentKit trade execution failed: ${errorBody}`);
+    }
+
+    const executionResult = await response.json();
 
     return {
         executed: true,
         decision,
-        transaction: tx,
+        transaction: executionResult.transaction,
+        humanBacked: true,
+        agentWallet: account.address,
     };
 }
