@@ -8,9 +8,9 @@ dataSources:
     name: MarketManager
     network: sepolia
     source:
-      address: "0xB02eC4E5c3480e919dc0e2b24b8a4c248A31E10D"
+      address: "0x224413c2B571f47b35e0779eCd4a760c26752C6C"
       abi: MarketManager
-      startBlock: 11654534
+      startBlock: 11682540
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.9
@@ -22,7 +22,7 @@ dataSources:
         - name: MarketManager
           file: ./abis/MarketManager.json
       eventHandlers:
-        - event: MarketCreated(indexed address,address,bytes32)
+        - event: MarketCreated(indexed address,address,string,bytes32,uint256)
           handler: handleMarketCreated
         - event: OwnershipTransferred(indexed address,indexed address)
           handler: handleOwnershipTransferred
@@ -31,9 +31,9 @@ dataSources:
     name: BinaryOracle
     network: sepolia
     source:
-      address: "0x2642037C24B9946127714B8E58393Cd0f8B5F858"
+      address: "0x16149EF9945c0D7EDe5699b5D3d695A325d7F513"
       abi: BinaryOracle
-      startBlock: 11654534
+      startBlock: 11682540
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.9

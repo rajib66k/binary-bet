@@ -59,9 +59,21 @@
       },
       {
         "indexed": false,
+        "internalType": "string",
+        "name": "question",
+        "type": "string"
+      },
+      {
+        "indexed": false,
         "internalType": "bytes32",
         "name": "questionId",
         "type": "bytes32"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "resolveTime",
+        "type": "uint256"
       }
     ],
     "name": "MarketCreated",
@@ -90,6 +102,7 @@
     "inputs": [
       {
         "components": [
+          { "internalType": "string", "name": "question", "type": "string" },
           {
             "internalType": "bytes32",
             "name": "questionId",

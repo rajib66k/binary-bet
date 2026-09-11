@@ -1,30 +1,30 @@
 export type AgentConfig = {
-    id: string;
-    owner: string;
-    name: string;
+  id: string;
+  owner: string;
+  name: string;
 
-    walletAddress: string;
+  walletAddress: string;
 
-    maxTradeAmount: number;
-    maxExposure: number;
-    dailyLossLimit: number;
+  maxTradeAmount: number;
+  maxExposure: number;
+  dailyLossLimit: number;
 
-    allowedMarkets?: string[];
+  allowedMarkets?: string[];
 }
 
 export type ExecuteTradeParams = {
-    privateKey: `0x${string}`;
-    marketAddress: string;
-    action: "BUY" | "SELL";
-    outcome: "YES" | "NO";
-    amount: number;
+  privateKey: `0x${string}`;
+  marketAddress: string;
+  action: "BUY" | "SELL";
+  outcome: "YES" | "NO";
+  amount: number;
 };
 
 export type CreateAgentInput = {
-    ownerAddress: string;
-    name: string;
-    maxTradeAmount: number;
-    maxExposure: number;
-    dailyLossLimit: number;
-    allowedMarkets: string[];
+  ownerAddress: string;
+  name: string;
+  maxTradeAmount: number;
+  maxExposure: number;
+  dailyLossLimit: number;
+  allowedMarkets: string[];
 };

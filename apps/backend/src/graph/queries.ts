@@ -5,8 +5,10 @@ export const GET_MARKETS_QUERY = `
           orderDirection: desc
         ) {
           market
+          question
           questionId
           lpToken
+          resolveTime
           blockTimestamp
         }
     }

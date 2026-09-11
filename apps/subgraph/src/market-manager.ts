@@ -11,7 +11,9 @@ export function handleMarketCreated(event: MarketCreatedEvent): void {
   )
   entity.market = event.params.market
   entity.lpToken = event.params.lpToken
+  entity.question = event.params.question
   entity.questionId = event.params.questionId
+  entity.resolveTime = event.params.resolveTime
 
   entity.blockNumber = event.block.number
   entity.blockTimestamp = event.block.timestamp
