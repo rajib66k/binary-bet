@@ -3,6 +3,7 @@ import { type ReactNode } from "react";
 import { ClientProviders } from "./clientProviders";
 import "./globals.css";
 import Navbar from "../components/ui/NavBar";
+import Footer from "../components/ui/Footer";
 
 export const metadata: Metadata = {
   title: "Binary Bet",
@@ -16,6 +17,7 @@ export default function RootLayout(props: { children: ReactNode }) {
         <ClientProviders>
           <Navbar />
           {props.children}
+          <Footer />
         </ClientProviders>
       </body>
     </html>

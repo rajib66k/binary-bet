@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="512"
+     height="512"
+     viewBox="0 0 512 512">
+
+  <!-- Square background -->
+  <rect width="512" height="512" rx="64" fill="#627EEA"/>
+
+  <!-- Ethereum diamond -->
+  <path
+    d="M256 72
+       L146 256
+       L256 321
+       L366 256
+       Z"
+    fill="#FFFFFF"/>
+
+  <path
+    d="M256 72
+       L256 321
+       L366 256
+       Z"
+    fill="#DDE3FF"/>
+
+  <path
+    d="M146 256
+       L256 321
+       L366 256
+       L256 440
+       Z"
+    fill="#FFFFFF"/>
+
+  <path
+    d="M256 321
+       L366 256
+       L256 440
+       Z"
+    fill="#DDE3FF"/>
+
+</svg>
