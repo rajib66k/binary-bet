@@ -13,7 +13,7 @@ async function getMarkets(): Promise<MarketData[]> {
   });
 
   if (!response.ok) {
-    throw new Error(`Markets request failed with status ${response.status}`);
+    return [];
   }
 
   const data = (await response.json()) as MarketsResponse;
