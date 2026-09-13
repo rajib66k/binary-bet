@@ -8,7 +8,7 @@ dataSources:
     name: MarketManager
     network: sepolia
     source:
-      address: "0x224413c2B571f47b35e0779eCd4a760c26752C6C"
+      address: "0x9eDdBda8aAc17D4169f81Eb4F2Ac7ec5866146C3"
       abi: MarketManager
       startBlock: 11682540
     mapping:
@@ -31,7 +31,7 @@ dataSources:
     name: BinaryOracle
     network: sepolia
     source:
-      address: "0x16149EF9945c0D7EDe5699b5D3d695A325d7F513"
+      address: "0xA9814bd75d8eB6f9df336df952c2A756d5493FF9"
       abi: BinaryOracle
       startBlock: 11682540
     mapping:
