@@ -21,7 +21,6 @@ export default function Footer() {
                         <p className="text-xs font-bold uppercase tracking-[0.16em] text-gray-400">Explore</p>
                         <nav className="mt-4 grid gap-3 text-sm text-gray-600" aria-label="Footer navigation">
                             <Link href="/" className="w-fit transition-colors hover:text-[#03a9f4]">Markets</Link>
-                            <Link href="/MyActivity" className="w-fit transition-colors hover:text-[#03a9f4]">My Activity</Link>
                             <Link href="/MyAgent" className="w-fit transition-colors hover:text-[#03a9f4]">My Agent</Link>
                         </nav>
                     </div>

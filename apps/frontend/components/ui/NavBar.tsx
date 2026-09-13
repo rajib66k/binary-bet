@@ -26,10 +26,6 @@ const Navbar = () => {
                         <Link className={pathname === "/" ? "text-[#03a9f4]" : ""} href="/">
                             <button className="cursor-pointer hover:text-[#03a9f4]">Market</button>
                         </Link>
-
-                        <Link className={pathname === "/MyActivity" ? "text-[#03a9f4]" : ""} href="/MyActivity">
-                            <button className="cursor-pointer hover:text-[#03a9f4]">My Activity</button>
-                        </Link>
                         <Link className={pathname === "/MyAgent" ? "text-[#03a9f4]" : ""} href="/MyAgent">
                             <button className="cursor-pointer hover:text-[#03a9f4]">My Agent</button>
                         </Link>
@@ -56,13 +52,6 @@ const Navbar = () => {
                                 className={`rounded-xl px-3 py-2 text-sm font-medium ${pathname === "/" ? "bg-[#03a9f4]/10 text-[#03a9f4]" : "text-gray-700 hover:bg-gray-50"}`}
                             >
                                 Market
-                            </Link>
-                            <Link
-                                href="/MyActivity"
-                                onClick={() => setIsMenuOpen(false)}
-                                className={`rounded-xl px-3 py-2 text-sm font-medium ${pathname === "/MyActivity" ? "bg-[#03a9f4]/10 text-[#03a9f4]" : "text-gray-700 hover:bg-gray-50"}`}
-                            >
-                                My Activity
                             </Link>
                             <Link
                                 href="/MyAgent"

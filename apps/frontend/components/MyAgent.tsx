@@ -150,6 +150,9 @@ export default function MyAgent() {
         setWorldUrl("");
         setRegistrationMessage("");
         setCopied(false);
+        setMarketResolved(false);
+        setClaimMessage("");
+        setClaimTx("");
     }, [selectedAgentId]);
 
     function updateForm(field: keyof typeof form, value: string) {
