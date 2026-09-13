@@ -1,7 +1,7 @@
 import { Address } from "viem";
 import jwt, {SignOptions} from "jsonwebtoken";
-import { env } from "../config/env";
-import { AppError } from "../errors/AppError";
+import { env } from "../config/env.js";
+import { AppError } from "../errors/AppError.js";
 
 export function signAccessToken(address: Address): string {
     const options: SignOptions = {

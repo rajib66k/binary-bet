@@ -23,5 +23,5 @@ export const env = {
     agentWalletEncryptionKey: checkRequiredEnvVariables("AGENT_WALLET_ENCRYPTION_KEY"),
     jwtAccessSecret: checkRequiredEnvVariables("JWT_SECRET"),
     jwtAccessExpiresIn: process.env.JWT_ACCESS_EXPIRES_IN ?? "7d",
-    agentExecutionUrl: process.env.AGENT_EXECUTION_URL,
+    agentExecutionUrl: checkRequiredEnvVariables("AGENT_EXECUTION_URL"),
 } as const;

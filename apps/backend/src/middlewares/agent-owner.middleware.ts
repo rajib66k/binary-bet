@@ -1,7 +1,7 @@
 import { Response, NextFunction } from "express";
-import { pool } from "../lib/db";
-import { AppError } from "../errors/AppError";
-import { AuthenticatedRequest } from "./auth.middleware";
+import { pool } from "../lib/db.js";
+import { AppError } from "../errors/AppError.js";
+import { AuthenticatedRequest } from "./auth.middleware.js";
 
 export async function requireAgentOwner(req: AuthenticatedRequest, res: Response, next: NextFunction) {
     try {

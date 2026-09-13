@@ -1,6 +1,6 @@
-import { pool } from "../lib/db";
-import { encryptPrivateKey } from "../lib/agent-wallet/wallet-encryption";
-import { CreateAgentInput } from "../types/types";
+import { pool } from "../lib/db.js";
+import { encryptPrivateKey } from "../lib/agent-wallet/wallet-encryption.js";
+import { CreateAgentInput } from "../types/types.js";
 import { generatePrivateKey, privateKeyToAccount } from "viem/accounts";
 
 export async function createAgent(input: CreateAgentInput) {

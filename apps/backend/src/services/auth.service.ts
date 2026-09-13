@@ -1,8 +1,8 @@
 import { randomBytes } from "node:crypto";
 import { Address, verifyMessage } from "viem";
-import { pool } from "../lib/db";
-import { AppError } from "../errors/AppError";
-import { signAccessToken } from "../lib/jwt";
+import { pool } from "../lib/db.js";
+import { AppError } from "../errors/AppError.js";
+import { signAccessToken } from "../lib/jwt.js";
 
 function normalizeAddress(address: string) {
     return address.toLowerCase().trim() as Address;

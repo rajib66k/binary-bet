@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { getAgentsByOwner } from "../repositories/agent.repository";
-import { getAgentById, runTradingAgent } from "../agents/agent-runner";
-import { registerAgent } from "../services/agents.service";
-import { AuthenticatedRequest, requireAuth } from "../middlewares/auth.middleware";
-import { requireAgentOwner } from "../middlewares/agent-owner.middleware";
-import { checkAgentHumanBacking, getWorldRegistrationStatus, startWorldRegistration, updateWorldVerification, updateWorldVerificationFailed } from "../services/world-agent.service";
+import { getAgentsByOwner } from "../repositories/agent.repository.js";
+import { getAgentById, runTradingAgent } from "../agents/agent-runner.js";
+import { registerAgent } from "../services/agents.service.js";
+import { AuthenticatedRequest, requireAuth } from "../middlewares/auth.middleware.js";
+import { requireAgentOwner } from "../middlewares/agent-owner.middleware.js";
+import { checkAgentHumanBacking, getWorldRegistrationStatus, startWorldRegistration, updateWorldVerification } from "../services/world-agent.service.js";
 import { requireAgentKit } from "../middlewares/agentkitAuth.js";
 import { getAgentPrivateKey } from "../lib/agent-wallet/agent-wallet-service.js";
 import { executeTrade } from "../lib/trading/trade-executor.js";
@@ -173,7 +173,7 @@ agentsRouter.post("/agent-execution/trade", requireAgentKit, async (req, res, ne
             });
         }
 
-        if (agent.walletAddress.toLowerCase() !== verifiedAgent.agentAddress.toLowerCase()) {
+        if (agent.wallet_address.toLowerCase() !== verifiedAgent.agentAddress.toLowerCase()) {
             return res.status(403).json({
                 success: false,
                 error: "Agent wallet does not match requested agent",

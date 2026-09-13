@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { createAuthNonce, authenticateWallet } from "../services/auth.service";
-import { AppError } from "../errors/AppError";
+import { createAuthNonce, authenticateWallet } from "../services/auth.service.js";
+import { AppError } from "../errors/AppError.js";
 
 export const authRouter = Router();
 

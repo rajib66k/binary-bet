@@ -1,5 +1,5 @@
 import { spawn, ChildProcess } from "node:child_process";
-import { pool } from "../lib/db";
+import { pool } from "../lib/db.js";
 import { createAgentBookVerifier } from "@worldcoin/agentkit";
 
 type RegistrationStatus =

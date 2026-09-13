@@ -8,9 +8,8 @@
     "strict": true,
     "skipLibCheck": true,
     "types": ["node"],
-    "noEmit": true,
-    "allowImportingTsExtensions": true,
+    "rootDir": "src",
     "outDir": "dist"
   },
-  "include": ["src/**/*", "src/types"]
+  "include": ["src/**/*"]
 }

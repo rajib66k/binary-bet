@@ -1,6 +1,6 @@
 import { createTool } from "@mastra/core/tools";
 import { z } from "zod";
-import { getMarketDetails, getMarkets } from "../graph/market-service";
+import { getMarketDetails, getMarkets } from "../graph/market-service.js";
 
 export const getMarketDetailsTool = createTool({
     id: "get_market_details",

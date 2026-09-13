@@ -1,6 +1,6 @@
-import { AppError } from "../errors/AppError";
-import { CreateAgentInput } from "../types/types";
-import { createAgent } from "../repositories/agent.repository";
+import { AppError } from "../errors/AppError.js";
+import { CreateAgentInput } from "../types/types.js";
+import { createAgent } from "../repositories/agent.repository.js";
 
 export async function registerAgent(input: CreateAgentInput) {
     if (!input.ownerAddress) {

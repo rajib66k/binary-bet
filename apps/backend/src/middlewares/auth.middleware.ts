@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
-import { AppError } from "../errors/AppError";
-import { verifyAccessToken } from "../lib/jwt";
+import { AppError } from "../errors/AppError.js";
+import { verifyAccessToken } from "../lib/jwt.js";
 
 export interface AuthenticatedRequest
     extends Request {
