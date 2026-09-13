@@ -4,7 +4,6 @@ import { createPredictionAgent } from "./prediction-agents.js";
 import { validateTrade } from "../lib/trading/risk-engine.js";
 import { pool } from "../lib/db.js";
 import { AppError } from "../errors/AppError.js";
-import { checkAgentHumanBacking, updateWorldVerification } from "../services/world-agent.service.js";
 import { createAgentkitClient } from "@worldcoin/agentkit";
 import { privateKeyToAccount } from "viem/accounts";
 import { env } from "../config/env.js";
@@ -42,6 +41,9 @@ export async function getAgentById(agentId: string) {
             daily_loss_limit,
             allowed_markets,
             active,
+            human_backed,
+            agentbook_human_id,
+            registration_status,
             created_at,
             updated_at
         FROM ai_agents
@@ -66,20 +68,6 @@ export async function runTradingAgent(agentId: string) {
             executed: false,
             reason: "Agent is paused",
         };
-    }
-
-    const world = await checkAgentHumanBacking(dbAgent.walletAddress);
-
-    if (!world.humanBacked) {
-        return {
-            executed: false,
-            reason: "Agent is not backed by a World-verified human",
-            code: "AGENT_NOT_HUMAN_BACKED",
-        };
-    }
-
-    if (dbAgent.registrationStatus !== "verified") {
-        await updateWorldVerification(dbAgent.id, world.humanId!);
     }
 
     const agentConfig = {

@@ -6,7 +6,7 @@ export function errorHandler(err: Error, _req: Request, res: Response, _next: Ne
     if (err instanceof AppError) {
         res.status(err.statusCode).json({
             success: false,
-            massage: err.message,
+            message: err.message,
         });
         return;
     }
@@ -15,6 +15,6 @@ export function errorHandler(err: Error, _req: Request, res: Response, _next: Ne
 
     res.status(500).json({
         success: false,
-        massage: "Internal server error",
+        message: "Internal server error",
     });
 }

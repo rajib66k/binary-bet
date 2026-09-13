@@ -7,9 +7,6 @@ export async function createAgent(input: CreateAgentInput) {
     const privateKey = generatePrivateKey();
     const account = privateKeyToAccount(privateKey);
 
-    console.log(privateKey);
-    console.log(account.address);
-
     const encryptedPrivateKey = encryptPrivateKey(privateKey);
     const normalizeAddress = input.ownerAddress.toLowerCase().trim();
 
@@ -27,8 +24,9 @@ export async function createAgent(input: CreateAgentInput) {
             human_backed,
             registration_status
         )
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, FALSE, 'pending')
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, FALSE, 'pending')
         RETURNING
+            id,
             owner_address,
             name,
             wallet_address,
@@ -37,6 +35,8 @@ export async function createAgent(input: CreateAgentInput) {
             daily_loss_limit,
             allowed_markets,
             active,
+            human_backed,
+            registration_status,
             created_at
         `,
         [
@@ -67,6 +67,8 @@ export async function getAgentsByOwner(ownerAddress: string) {
             daily_loss_limit,
             allowed_markets,
             active,
+            human_backed,
+            registration_status,
             created_at,
             updated_at
         FROM ai_agents

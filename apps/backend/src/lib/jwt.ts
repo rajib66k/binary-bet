@@ -8,12 +8,22 @@ export function signAccessToken(address: Address): string {
         expiresIn: env.jwtAccessExpiresIn as SignOptions['expiresIn']
     }
 
-    return jwt.sign(address, env.jwtAccessSecret, options);
+    return jwt.sign({ address }, env.jwtAccessSecret, options);
 }
 
 export function verifyAccessToken(token: string): string {
     try {
-        return jwt.verify(token, env.jwtAccessSecret!) as string;
+        const payload = jwt.verify(token, env.jwtAccessSecret!);
+
+        if (
+            typeof payload !== "object" ||
+            payload === null ||
+            typeof payload.address !== "string"
+        ) {
+            throw new AppError(401, "Invalid authentication token");
+        }
+
+        return payload.address;
     } catch {
         throw new AppError(401, "Invalid or expired access token")
     }

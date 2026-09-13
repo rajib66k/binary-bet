@@ -31,7 +31,7 @@ authRouter.post("/auth/verify", async (req, res, next) => {
             throw new AppError(400, "Address and signature are required");
         }
 
-        const accessToken = await authenticateWallet(address, signature);
+        const { accessToken } = await authenticateWallet(address, signature);
 
         return res.json({
             success: true,
