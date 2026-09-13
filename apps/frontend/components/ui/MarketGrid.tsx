@@ -4,7 +4,7 @@ type MarketsResponse = {
   markets: MarketData[];
 };
 
-const API_URL = process.env.BACKEND_URL ?? "http://localhost:5000";
+const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL ?? "http://localhost:5000";
 
 async function getMarkets(): Promise<MarketData[]> {
   const response = await fetch(`${API_URL}/api/markets`, {
