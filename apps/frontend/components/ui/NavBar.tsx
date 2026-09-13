@@ -1,9 +1,9 @@
 "use client";
 
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import AuthButton from "./AuthButton";
 
 const Navbar = () => {
     const pathname = usePathname();
@@ -35,7 +35,7 @@ const Navbar = () => {
                         </Link>
                     </ul>
                     <div className="hidden lg:block">
-                        <ConnectButton />
+                        <AuthButton />
                     </div>
                     <button
                         type="button"
@@ -73,7 +73,7 @@ const Navbar = () => {
                             </Link>
                             <div className="mt-2 border-t border-gray-100 pt-3">
                                 <div className="flex justify-center overflow-hidden rounded-xl">
-                                    <ConnectButton accountStatus="avatar" chainStatus="icon" showBalance={false} />
+                                    <AuthButton />
                                 </div>
                             </div>
                         </div>
