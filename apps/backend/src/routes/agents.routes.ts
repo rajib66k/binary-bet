@@ -9,6 +9,7 @@ import { requireAgentKit } from "../middlewares/agentkitAuth.js";
 import { getAgentPrivateKey } from "../lib/agent-wallet/agent-wallet-service.js";
 import { executeTrade } from "../lib/trading/trade-executor.js";
 import { pool } from "../lib/db.js";
+import { claimAgentWinnings } from "../services/agent-claim.service.js";
 
 export const agentsRouter = Router();
 
@@ -218,6 +219,29 @@ agentsRouter.post("/agent-execution/trade", requireAgentKit, async (req, res, ne
         next(error);
     }
 });
+
+agentsRouter.post("/agents/:id/claim", requireAuth, requireAgentOwner, async (req: AuthenticatedRequest, res, next) => {
+    try {
+        const { marketAddress } = req.body;
+
+        if (!marketAddress) {
+            return res.status(400).json({
+                success: false,
+                message: "Market address is required",
+            });
+        }
+
+        const result = await claimAgentWinnings(req.params.id as string, marketAddress, req.user!.address);
+
+        return res.json({
+            success: true,
+            result,
+        });
+    } catch (error) {
+        next(error);
+    }
+},
+);
 
 agentsRouter.post("/agents/:id/world-verification", requireAuth, requireAgentOwner, async (req, res, next) => {
     try {

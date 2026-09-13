@@ -1,12 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useAccount } from "wagmi";
+import { useAccount, useChainId, useConfig } from "wagmi";
 import { QRCodeSVG } from "qrcode.react";
 import { apiFetch } from "../app/lib/api";
 import LimitInput from "./ui/LimitInput";
 import DecisionValue from "./ui/DecisionValue";
 import EmptyState from "./ui/EmptyState";
+import { predictionMarketAbi } from "../constants";
+import { readContract } from "wagmi/actions";
 
 type Agent = {
     id: string;
@@ -79,6 +81,9 @@ function registrationLabel(agent: Agent) {
 export default function MyAgent() {
     const { address } = useAccount();
 
+    const chainId = useChainId();
+    const config = useConfig();
+
     const [agents, setAgents] = useState<Agent[]>([]);
     const [selectedAgentId, setSelectedAgentId] = useState<string | null>(null);
     const [decision, setDecision] = useState(initialDecision);
@@ -96,6 +101,11 @@ export default function MyAgent() {
 
     const [showCreateForm, setShowCreateForm] = useState(false);
     const [form, setForm] = useState(emptyForm);
+
+    const [isClaiming, setIsClaiming] = useState(false);
+    const [claimMessage, setClaimMessage] = useState("");
+    const [claimTx, setClaimTx] = useState("");
+    const [marketResolved, setMarketResolved] = useState(false);
 
     const selectedAgent =
         agents.find((agent) => agent.id === selectedAgentId) ?? null;
@@ -224,7 +234,7 @@ export default function MyAgent() {
             setRegistrationMessage("");
             setWorldUrl("");
 
-            const response = await apiFetch(`/api/agents/${selectedAgent.id}/world-verification`,{ method: "POST", body: JSON.stringify({}) });
+            const response = await apiFetch(`/api/agents/${selectedAgent.id}/world-verification`, { method: "POST", body: JSON.stringify({}) });
 
             const data = await response.json();
 
@@ -312,6 +322,95 @@ export default function MyAgent() {
         }
     }
 
+    async function checkMarketResolved() {
+        const marketAddress = decision.marketAddress;
+
+        if (!/^0x[a-fA-F0-9]{40}$/.test(marketAddress)) {
+            setMarketResolved(false);
+            return;
+        }
+
+        try {
+            const state = await readContract(
+                config,
+                {
+                    address: marketAddress as `0x${string}`,
+                    abi: predictionMarketAbi,
+                    functionName: "getMarketState",
+                },
+            );
+
+            setMarketResolved(
+                Number(state) === 2,
+            );
+        } catch (error) {
+            setMarketResolved(false);
+        }
+    }
+
+    useEffect(() => {
+        if (decision.marketAddress !== "No decision yet") {
+            void checkMarketResolved();
+        }
+    }, [decision.marketAddress]);
+
+    async function claimAgentWinnings() {
+        if (!selectedAgent) return;
+
+        if (!address) {
+            setClaimMessage("Connect your wallet first.");
+            return;
+        }
+
+        if (chainId !== 11155111) {
+            setClaimMessage("Please switch your wallet to Sepolia.");
+            return;
+        }
+
+        if (!marketResolved) {
+            setClaimMessage("The market is not resolved yet.",);
+            return;
+        }
+
+        if (!/^0x[a-fA-F0-9]{40}$/.test(decision.marketAddress)) {
+            setClaimMessage("No valid market is available for this agent.",);
+            return;
+        }
+
+        try {
+            setIsClaiming(true);
+            setClaimMessage("");
+            setClaimTx("");
+
+            const response = await apiFetch(
+                `/api/agents/${selectedAgent.id}/claim`,
+                {
+                    method: "POST",
+                    body: JSON.stringify({
+                        marketAddress:
+                            decision.marketAddress,
+                    }),
+                },
+            );
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || data.error || "Claim failed.");
+            }
+
+            setClaimMessage(`Successfully claimed ${Number(data.result.amount,) / 1_000_000} USDC.`);
+
+            if (data.result.claimTransaction) {
+                setClaimTx(data.result.claimTransaction);
+            }
+        } catch (error) {
+            setClaimMessage(error instanceof Error ? error.message : "Claim failed.",);
+        } finally {
+            setIsClaiming(false);
+        }
+    }
+
     async function copyWallet() {
         if (!selectedAgent) return;
 
@@ -354,10 +453,10 @@ export default function MyAgent() {
                     </div>
 
                     <div className="grid gap-3 sm:grid-cols-2">
-                        <input value={form.name} onChange={(e) => updateForm("name", e.target.value)} placeholder="Agent name" className="min-w-0 rounded-xl bg-gray-100 p-3 outline-none"/>
-                        <input type="number" min="0" value={form.maxTradeAmount} onChange={(e) => updateForm("maxTradeAmount", e.target.value) } placeholder="Max trade amount" className="min-w-0 rounded-xl bg-gray-100 p-3 outline-none"/>
-                        <input type="number" min="0" value={form.maxExposure} onChange={(e) => updateForm("maxExposure", e.target.value) } placeholder="Max exposure" className="min-w-0 rounded-xl bg-gray-100 p-3 outline-none"/>
-                        <input type="number" min="0" value={form.dailyLossLimit} onChange={(e) => updateForm("dailyLossLimit", e.target.value)} placeholder="Daily loss limit" className="min-w-0 rounded-xl bg-gray-100 p-3 outline-none"/>
+                        <input value={form.name} onChange={(e) => updateForm("name", e.target.value)} placeholder="Agent name" className="min-w-0 rounded-xl bg-gray-100 p-3 outline-none" />
+                        <input type="number" min="0" value={form.maxTradeAmount} onChange={(e) => updateForm("maxTradeAmount", e.target.value)} placeholder="Max trade amount" className="min-w-0 rounded-xl bg-gray-100 p-3 outline-none" />
+                        <input type="number" min="0" value={form.maxExposure} onChange={(e) => updateForm("maxExposure", e.target.value)} placeholder="Max exposure" className="min-w-0 rounded-xl bg-gray-100 p-3 outline-none" />
+                        <input type="number" min="0" value={form.dailyLossLimit} onChange={(e) => updateForm("dailyLossLimit", e.target.value)} placeholder="Daily loss limit" className="min-w-0 rounded-xl bg-gray-100 p-3 outline-none" />
                     </div>
 
                     <button
@@ -372,11 +471,11 @@ export default function MyAgent() {
             )}
 
             {!address ? (
-                <EmptyState title="Connect your wallet" description="Connect a wallet to create and manage your trading agents."/>
+                <EmptyState title="Connect your wallet" description="Connect a wallet to create and manage your trading agents." />
             ) : isLoading ? (
                 <EmptyState title="Loading agents..." description="Loading your trading agents." />
             ) : agents.length === 0 ? (
-                <EmptyState title="Create your first trading agent" description="Your AI agent will analyze prediction markets within your configured risk limits."/>
+                <EmptyState title="Create your first trading agent" description="Your AI agent will analyze prediction markets within your configured risk limits." />
             ) : (
                 <>
                     <section className="mb-5 rounded-3xl border border-[#03a9f4]/20 bg-white p-4 shadow-sm">
@@ -484,7 +583,7 @@ export default function MyAgent() {
                                             label="Daily loss"
                                             value={selectedAgent.daily_loss_limit}
                                             onChange={(value) =>
-                                                updateAgent(selectedAgent.id, "daily_loss_limit",value)
+                                                updateAgent(selectedAgent.id, "daily_loss_limit", value)
                                             }
                                         />
                                     </div>
@@ -566,6 +665,37 @@ export default function MyAgent() {
                                 >
                                     {isRunning ? "Running agent..." : verified ? "Run agent" : "Verify agent to trade"}
                                 </button>
+                                {marketResolved && (
+                                    <div className="mt-4 rounded-2xl border border-green-200 bg-green-50 p-4">
+
+                                        <div className="flex items-start justify-between gap-3">
+
+                                            <div>
+                                                <p className="text-sm font-semibold text-green-700">Market resolved</p>
+                                                <p className="mt-1 text-xs leading-relaxed text-green-600">Your agent may have a redeemable position.</p>
+                                            </div>
+
+                                            <span className="rounded-full bg-green-500/10 px-2.5 py-1 text-[11px] font-semibold text-green-600">RESOLVED</span>
+                                        </div>
+
+                                        <button
+                                            type="button" onClick={() => { void claimAgentWinnings(); }} disabled={isClaiming || !selectedAgent}
+                                            className="mt-4 w-full rounded-xl bg-green-600 px-4 py-3 font-semibold text-white transition-colors hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50"
+                                        >
+                                            {isClaiming ? "Claiming agent winnings..." : "Claim agent winnings"}
+                                        </button>
+
+                                        {claimMessage && (
+                                            <p className="mt-3 text-xs leading-relaxed text-gray-600">{claimMessage}</p>
+                                        )}
+
+                                        {claimTx && (
+                                            <a href={`https://sepolia.etherscan.io/tx/${claimTx}`} target="_blank" rel="noreferrer" className="mt-2 block text-xs font-semibold text-green-600 hover:underline">
+                                                View claim transaction
+                                            </a>
+                                        )}
+                                    </div>
+                                )}
                             </section>
 
                             <section className="rounded-3xl border border-[#03a9f4]/20 bg-white p-6 shadow-sm">
@@ -588,10 +718,10 @@ export default function MyAgent() {
                                 </div>
 
                                 <div className="mt-6 grid gap-3 sm:grid-cols-2">
-                                    <DecisionValue label="Market address" value={decision.marketAddress}/>
-                                    <DecisionValue label="Outcome" value={decision.outcome ?? "None"}/>
+                                    <DecisionValue label="Market address" value={decision.marketAddress} />
+                                    <DecisionValue label="Outcome" value={decision.outcome ?? "None"} />
                                     <DecisionValue label="Amount" value={decision.amount.toString()} />
-                                    <DecisionValue label="Confidence"  value={`${Math.round(decision.confidence * 100)}%`}/>
+                                    <DecisionValue label="Confidence" value={`${Math.round(decision.confidence * 100)}%`} />
                                 </div>
 
                                 <div className="mt-3 rounded-2xl bg-gray-50 p-4">
